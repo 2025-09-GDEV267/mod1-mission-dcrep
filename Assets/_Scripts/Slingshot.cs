@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slingshot : MonoBehaviour{
+public class Slingshot : MonoBehaviour {
 
     [Header("Inscribed")]
     public GameObject projectilePrefab;
@@ -21,56 +21,61 @@ public class Slingshot : MonoBehaviour{
         launchPoint.SetActive(false);
         launchPos = launchPointTrans.position;
     }
- 
- void OnMouseEnter(){
-    //print("Slingshot:OnMouseEnter()");
-    launchPoint.SetActive(true);
- }
 
- void OnMouseExit(){
-    //print("Slingshot:OnMouseExit()");
-    launchPoint.SetActive(false);
- }
+    void OnMouseEnter() {
+        //print("Slingshot:OnMouseEnter()");
+        launchPoint.SetActive(true);
+    }
 
- void OnMouseDown(){
+    void OnMouseExit() {
+        //print("Slingshot:OnMouseExit()");
+        launchPoint.SetActive(false);
+    }
 
-    aimingMode = true;
+    void OnMouseDown()
+   {
 
-    projectile = Instantiate(projectilePrefab) as GameObject;
+      aimingMode = true;
 
-    projectile.transform.position = launchPos;
+      projectile = Instantiate(projectilePrefab) as GameObject;
 
-    projectile.GetComponent<Rigidbody>().isKinematic = true;
- }
- void Update(){
+      projectile.transform.position = launchPos;
 
-    if (!aimingMode) return;
+      projectile.GetComponent<Rigidbody>().isKinematic = true;
+   }
 
-    Vector3 mousePos2D = Input.mousePosition;
-    mousePos2D.z = -Camera.main.transform.position.z;
-    Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+   void Update()
+   {
 
-    Vector3 mouseDelta = mousePos3D -launchPos;
+      if (!aimingMode) return;
+
+      Vector3 mousePos2D = Input.mousePosition;
+      mousePos2D.z = -Camera.main.transform.position.z;
+      Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+      Vector3 mouseDelta = mousePos3D -launchPos;
 
       float maxMagnitude = this.GetComponent<SphereCollider>().radius; // - 0.2f;
-    if (mouseDelta.magnitude > maxMagnitude){
-        mouseDelta.Normalize();
-        mouseDelta*= maxMagnitude;
-    }
+      if (mouseDelta.magnitude > maxMagnitude){
+         mouseDelta.Normalize();
+         mouseDelta*= maxMagnitude;
+      }
 
-    Vector3 projPos = launchPos + mouseDelta;
-    projectile.transform.position = projPos;
+      Vector3 projPos = launchPos + mouseDelta;
+      projectile.transform.position = projPos;
 
-    if(Input.GetMouseButtonUp(0)){
+      if (Input.GetMouseButtonUp(0))
+      {
 
-        aimingMode = false;
-        Rigidbody projRB = projectile.GetComponent<Rigidbody>();
-        projRB.isKinematic = false;
-        projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        projRB.linearVelocity = -mouseDelta * velocityMult;
-        FollowCam.POI = projectile;
-        Instantiate<GameObject>(projLinePrefab, projectile.transform);
-        projectile = null;
-    }
- }
+         aimingMode = false;
+         Rigidbody projRB = projectile.GetComponent<Rigidbody>();
+         projRB.isKinematic = false;
+         projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
+         projRB.linearVelocity = -mouseDelta * velocityMult;
+         FollowCam.POI = projectile;
+         Instantiate<GameObject>(projLinePrefab, projectile.transform);
+         projectile = null;
+         MissionDemolition.SHOT_FIRED();
+      }
+   }
 }

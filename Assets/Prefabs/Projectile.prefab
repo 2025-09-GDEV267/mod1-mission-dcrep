@@ -150,3 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _awake: 1
+  explosionForce: 5000
+  explosionRadius: 5
+  upwardsModifier: 10

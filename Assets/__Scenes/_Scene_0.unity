@@ -494,6 +494,7 @@ MonoBehaviour:
   - {fileID: 1714873935392641797, guid: d8b3b834f427a8e4ab2afd186ed25a58, type: 3}
   - {fileID: 1714873935392641797, guid: 81cbe18077d02d74b91e9e17ac4eaf18, type: 3}
   - {fileID: 1714873935392641797, guid: 8b319cc45e2b8d843938d890a5971c2d, type: 3}
+  - {fileID: 1714873935392641797, guid: 856c5060f2ef93b409b26fea7ef0f0b5, type: 3}
   level: 0
   levelMax: 0
   shotsTaken: 0

@@ -16,6 +16,10 @@ public class Projectile : MonoBehaviour
         get { return _awake; }
         private set { _awake = value; }
     }
+    // Explosion parameters
+    [SerializeField] private float explosionForce = 5000f;
+    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float upwardsModifier = 10f;
 
     private Vector3 prevPos;
     private List<float> deltas = new List<float>();
@@ -31,6 +35,20 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Spacebar was pressed!");
+            if (awake)     // (!rigid.IsSleeping())
+            {
+                // jump?
+                //rigid.AddForce(Vector3.up * 50, ForceMode.Impulse);
+                Explode();
+            }
+        }
+
+    }
     void FixedUpdate()
     {
         if (rigid.isKinematic || !awake) return;
@@ -67,6 +85,24 @@ public class Projectile : MonoBehaviour
             // Normally unsafe but Destroy queues the object for deletion at end of frame
             // (iteration over the list where it would add/remove items to the list is unsafe)
             Destroy(p.gameObject);
+        }
+    }
+    public void Explode()
+    {
+        Vector3 explosionPos = transform.position;
+        
+        // Find all colliders within explosion radius
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
+        
+        foreach (Collider hit in colliders)
+        {
+            //Debug.Log("Explosion hit: " + hit.name);
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            
+            if (rb != null && rb != rigid) // Don't apply force to self
+            {
+                rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, upwardsModifier);
+            }
         }
     }
 }

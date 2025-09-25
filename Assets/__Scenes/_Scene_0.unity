@@ -973,7 +973,7 @@ GameObject:
   - component: {fileID: 1566243404}
   - component: {fileID: 1566243403}
   m_Layer: 0
-  m_Name: 'RightArm '
+  m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

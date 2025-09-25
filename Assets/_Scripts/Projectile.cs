@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Spacebar was pressed!");
+            //Debug.Log("Spacebar was pressed!");
             if (awake)     // (!rigid.IsSleeping())
             {
                 // jump?
